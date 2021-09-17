@@ -15,17 +15,17 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class EntrepriseTest {
+public class EntrepriseTest<nom, prénom, matricule, dateembauche, salaire> {
 
 	@Test
 	public void exo001ConstantesClasse() throws Exception {
 		//Déclarer au niveau de la classe Entreprise les constantes de classe suivantes
 		//                     							   NOM CONSTANTE                    TYPE (sans .class)  Valeur
-		TestUtils.checkStaticFinalField("Entreprise", "SALAIRE_BASE", 					TestUtils.DOUBLE, 		1480.27);
-		TestUtils.checkStaticFinalField("Entreprise", "NB_CONGES_BASE", 				TestUtils.INTEGER, 		25);
-		TestUtils.checkStaticFinalField("Entreprise", "INDICE_MANAGER", 				TestUtils.DOUBLE, 		1.3);
-		TestUtils.checkStaticFinalField("Entreprise", "PRIME_MANAGER_PAR_TECHNICIEN", 	TestUtils.DOUBLE, 		250.0);
-		TestUtils.checkStaticFinalField("Entreprise", "PRIME_ANCIENNETE", 				TestUtils.DOUBLE, 		100.0);
+		TestUtils.checkStaticFinalField("Entreprise", "SALAIRE_BASE", TestUtils.DOUBLE, 1480.27);
+		TestUtils.checkStaticFinalField("Entreprise", "NB_CONGES_BASE", TestUtils.INTEGER, 25);
+		TestUtils.checkStaticFinalField("Entreprise", "INDICE_MANAGER", TestUtils.DOUBLE, 1.3);
+		TestUtils.checkStaticFinalField("Entreprise", "PRIME_MANAGER_PAR_TECHNICIEN", TestUtils.DOUBLE, 250.0);
+		TestUtils.checkStaticFinalField("Entreprise", "PRIME_ANCIENNETE", TestUtils.DOUBLE, 100.0);
 	}
 
 	@Test
@@ -38,7 +38,7 @@ public class EntrepriseTest {
 
 		TestUtils.checkStaticMethod("Entreprise", "primeAnnuelleBase", TestUtils.DOUBLE, 0);
 
-		DateTime d = new DateTime(2017,2,5,1,1);
+		DateTime d = new DateTime(2017, 2, 5, 1, 1);
 		DateTimeUtils.setCurrentMillisFixed(d.getMillis());
 		Object resultat = TestUtils.callMethod("Entreprise", "primeAnnuelleBase");
 		Assertions.assertThat(resultat).isEqualTo(1008.5);
@@ -132,11 +132,11 @@ public class EntrepriseTest {
 	public void exo101TestPrivateFields() throws Exception {
 		//Ajouter dans la classe Employe les champs suivants avec leurs getters/setters
 		//										   Nom champ	Type
-		TestUtils.checkPrivateField("Employe", "nom", 		TestUtils.STRING);
-		TestUtils.checkPrivateField("Employe", "prenom", 	TestUtils.STRING);
+		TestUtils.checkPrivateField("Employe", "nom", TestUtils.STRING);
+		TestUtils.checkPrivateField("Employe", "prenom", TestUtils.STRING);
 		TestUtils.checkPrivateField("Employe", "matricule", TestUtils.STRING);
 		TestUtils.checkPrivateField("Employe", "dateEmbauche", TestUtils.LOCAL_DATE);
-		TestUtils.checkPrivateField("Employe", "salaire", 	TestUtils.DOUBLE);
+		TestUtils.checkPrivateField("Employe", "salaire", TestUtils.DOUBLE);
 
 		TestUtils.checkMethod("Employe", "getNom", TestUtils.STRING);
 		TestUtils.checkMethod("Employe", "getPrenom", TestUtils.STRING);
@@ -288,7 +288,7 @@ public class EntrepriseTest {
 	}
 
 	@Test
-	public void exo110TestMethodGetPrimeAnnuelle() throws Exception{
+	public void exo110TestMethodGetPrimeAnnuelle() throws Exception {
 		//Déclarer dans la classe Employe une méthode abstraite getPrimeAnnuelle retournant un Double
 		TestUtils.checkMethod("Employe", "getPrimeAnnuelle", TestUtils.DOUBLE);
 	}
@@ -512,8 +512,7 @@ public class EntrepriseTest {
 			TestUtils.invokeSetter(d, "grade", 1);
 			TestUtils.invokeSetter(d, "salaire", 1000.0);
 			Assertions.assertThat(TestUtils.invokeGetter(d, "salaire")).isEqualTo(1100.0);
-		}
-		catch(Exception technicienException){
+		} catch (Exception technicienException) {
 			Assertions.fail("L'affectation n'aurait pas du lancer une exception");
 		}
 
@@ -521,8 +520,7 @@ public class EntrepriseTest {
 			TestUtils.invokeSetter(d, "grade", 2);
 			TestUtils.invokeSetter(d, "salaire", 1000.0);
 			Assertions.assertThat(TestUtils.invokeGetter(d, "salaire")).isEqualTo(1200.0);
-		}
-		catch(Exception technicienException){
+		} catch (Exception technicienException) {
 			Assertions.fail("L'affectation n'aurait pas du lancer une exception");
 		}
 	}
@@ -536,16 +534,14 @@ public class EntrepriseTest {
 		try {
 			TestUtils.invokeSetter(d, "dateEmbauche", LocalDate.now());
 			Assertions.assertThat(TestUtils.callMethod(d, "getNbConges")).isEqualTo(TestUtils.getStaticFinalField("Entreprise", "NB_CONGES_BASE"));
-		}
-		catch(Exception technicienException){
+		} catch (Exception technicienException) {
 			Assertions.fail("L'affectation n'aurait pas du lancer une exception");
 		}
 
 		try {
 			TestUtils.invokeSetter(d, "dateEmbauche", LocalDate.now().minusYears(4));
-			Assertions.assertThat(TestUtils.callMethod(d, "getNbConges")).isEqualTo((Integer)TestUtils.getStaticFinalField("Entreprise", "NB_CONGES_BASE") + 4);
-		}
-		catch(Exception technicienException){
+			Assertions.assertThat(TestUtils.callMethod(d, "getNbConges")).isEqualTo((Integer) TestUtils.getStaticFinalField("Entreprise", "NB_CONGES_BASE") + 4);
+		} catch (Exception technicienException) {
 			Assertions.fail("L'affectation n'aurait pas du lancer une exception");
 		}
 	}
@@ -556,14 +552,13 @@ public class EntrepriseTest {
 		//à laquelle on ajoute un pourcentage en fonction du grade (idem exo 305) ainsi que la prime d'ancienneté
 		//multipliée par le nombre d'année d'ancienneté
 		Object d = TestUtils.getClasse("Technicien").getConstructor().newInstance();
-		DateTime date = new DateTime(2017,2,5,1,1);
+		DateTime date = new DateTime(2017, 2, 5, 1, 1);
 		DateTimeUtils.setCurrentMillisFixed(date.getMillis());
 		try {
 			TestUtils.invokeSetter(d, "grade", 3);
 			TestUtils.invokeSetter(d, "dateEmbauche", LocalDate.now());
 			Assertions.assertThat(TestUtils.callMethod(d, "getPrimeAnnuelle")).isEqualTo(1311.05);//1008.5 + 302.55 + 0
-		}
-		catch(Exception technicienException){
+		} catch (Exception technicienException) {
 			Assertions.fail("L'affectation n'aurait pas du lancer une exception");
 		}
 
@@ -571,15 +566,14 @@ public class EntrepriseTest {
 			TestUtils.invokeSetter(d, "grade", 5);
 			TestUtils.invokeSetter(d, "dateEmbauche", LocalDate.now().minusYears(3));
 			Assertions.assertThat(TestUtils.callMethod(d, "getPrimeAnnuelle")).isEqualTo(1812.75);//1008.5 + 504.25 + 300
-		}
-		catch(Exception technicienException){
+		} catch (Exception technicienException) {
 			Assertions.fail("L'affectation n'aurait pas du lancer une exception");
 		}
 
 	}
 
 	@Test
-	public void exo307TestImplementComparable() throws Exception{
+	public void exo307TestImplementComparable() throws Exception {
 		//Implémenter l'interface Comparable pour que l'on puisse comparer deux Techniciens en fonction de leur grade
 		//plus le grade est haut, plus le technicien est compétent
 
@@ -598,7 +592,6 @@ public class EntrepriseTest {
 	}
 
 
-
 	@Test
 	public void exo401testClasseAbstraite() throws Exception {
 		//Rendre la classe Employe abstraite
@@ -606,7 +599,7 @@ public class EntrepriseTest {
 	}
 
 	@Test
-	public void exo402TestMethodAbstract() throws Exception{
+	public void exo402TestMethodAbstract() throws Exception {
 		//Déclarer dans la classe Employe une méthode abstraite getPrimeAnnuelle retournant un Double
 		TestUtils.checkAbstractMethod("Employe", "getPrimeAnnuelle", TestUtils.DOUBLE);
 	}
@@ -631,8 +624,8 @@ public class EntrepriseTest {
 		TestUtils.checkMethod("Manager", "setEquipe", "void", TestUtils.HASHSET);
 		Object d = TestUtils.getClasse("Manager").newInstance();
 		Assertions.assertThat(TestUtils.invokeGetter(d, "equipe").getClass().getName()).isEqualTo(TestUtils.HASHSET);
-		Assertions.assertThat((HashSet)TestUtils.invokeGetter(d, "equipe")).isNotNull();
-		Assertions.assertThat((HashSet)TestUtils.invokeGetter(d, "equipe")).hasSize(0);
+		Assertions.assertThat((HashSet) TestUtils.invokeGetter(d, "equipe")).isNotNull();
+		Assertions.assertThat((HashSet) TestUtils.invokeGetter(d, "equipe")).hasSize(0);
 
 		HashSet techniciens = new HashSet<>();
 		techniciens.add(TestUtils.getClasse("Technicien").newInstance());
@@ -652,8 +645,8 @@ public class EntrepriseTest {
 
 		TestUtils.callMethod(d, "ajoutTechnicienEquipe", t);
 		Assertions.assertThat(TestUtils.invokeGetter(d, "equipe").getClass().getName()).isEqualTo(TestUtils.HASHSET);
-		Assertions.assertThat((HashSet)TestUtils.invokeGetter(d, "equipe")).isNotNull();
-		Assertions.assertThat((HashSet)TestUtils.invokeGetter(d, "equipe")).hasSize(1);
+		Assertions.assertThat((HashSet) TestUtils.invokeGetter(d, "equipe")).isNotNull();
+		Assertions.assertThat((HashSet) TestUtils.invokeGetter(d, "equipe")).hasSize(1);
 		Assertions.assertThat(((HashSet) TestUtils.invokeGetter(d, "equipe")).iterator().next()).isEqualTo(t);
 	}
 
@@ -666,8 +659,7 @@ public class EntrepriseTest {
 		try {
 			TestUtils.invokeSetter(d, "salaire", 1000.0);
 			Assertions.assertThat(TestUtils.invokeGetter(d, "salaire")).isEqualTo(1300.0);
-		}
-		catch(Exception exception){
+		} catch (Exception exception) {
 			Assertions.fail("L'affectation n'aurait pas du lancer une exception");
 		}
 
@@ -675,8 +667,7 @@ public class EntrepriseTest {
 			TestUtils.invokeSetter(d, "equipe", Stream.of(TestUtils.getClasse("Technicien").newInstance()).collect(Collectors.toSet()));
 			TestUtils.invokeSetter(d, "salaire", 1000.0);
 			Assertions.assertThat(TestUtils.invokeGetter(d, "salaire")).isEqualTo(1400.0);
-		}
-		catch(Exception exception){
+		} catch (Exception exception) {
 			Assertions.fail("L'affectation n'aurait pas du lancer une exception");
 		}
 	}
@@ -687,28 +678,25 @@ public class EntrepriseTest {
 		//la prime du manager en fonction du nombre de membres
 		//de son équipe (en utilisant Entreprise.PRIME_MANAGER_PAR_TECHNICIEN)
 		Object d = TestUtils.getClasse("Manager").getConstructor().newInstance();
-		DateTime da = new DateTime(2017,2,5,1,1);
+		DateTime da = new DateTime(2017, 2, 5, 1, 1);
 		DateTimeUtils.setCurrentMillisFixed(da.getMillis());
 		try {
 			Assertions.assertThat(TestUtils.callMethod(d, "getPrimeAnnuelle")).isEqualTo(1008.5);
-		}
-		catch(Exception exception){
+		} catch (Exception exception) {
 			Assertions.fail("L'affectation n'aurait pas du lancer une exception");
 		}
 
 		try {
 			TestUtils.invokeSetter(d, "equipe", Stream.of(TestUtils.getClasse("Technicien").getConstructor(String.class, String.class, String.class, LocalDate.class, Double.class, Integer.class).newInstance(null, null, null, null, 0.0, 1)).collect(Collectors.toSet()));
 			Assertions.assertThat(TestUtils.callMethod(d, "getPrimeAnnuelle")).isEqualTo(1258.5);
-		}
-		catch(Exception technicienException){
+		} catch (Exception technicienException) {
 			Assertions.fail("L'affectation n'aurait pas du lancer une exception");
 		}
 
 		try {
 			TestUtils.invokeSetter(d, "equipe", Stream.of(TestUtils.getClasse("Technicien").getConstructor(String.class, String.class, String.class, LocalDate.class, Double.class, Integer.class).newInstance(null, null, null, null, 0.0, 1), TestUtils.getClasse("Technicien").getConstructor(String.class, String.class, String.class, LocalDate.class, Double.class, Integer.class).newInstance(null, null, null, null, 0.0, 2)).collect(Collectors.toSet()));
 			Assertions.assertThat(TestUtils.callMethod(d, "getPrimeAnnuelle")).isEqualTo(1508.5);
-		}
-		catch(Exception technicienException){
+		} catch (Exception technicienException) {
 			Assertions.fail("L'affectation n'aurait pas du lancer une exception");
 		}
 
@@ -724,24 +712,24 @@ public class EntrepriseTest {
 
 		Object d = TestUtils.getClasse("Manager").getConstructor().newInstance();
 		TestUtils.invokeSetter(d, "equipe", Stream.of(
-				TestUtils.getClasse("Technicien").getConstructor(String.class, String.class, String.class, LocalDate.class, Double.class, Integer.class).newInstance(null, null, null, null, 0.0, 1) ,
+				TestUtils.getClasse("Technicien").getConstructor(String.class, String.class, String.class, LocalDate.class, Double.class, Integer.class).newInstance(null, null, null, null, 0.0, 1),
 				TestUtils.getClasse("Technicien").getConstructor(String.class, String.class, String.class, LocalDate.class, Double.class, Integer.class).newInstance(null, null, null, null, 0.0, 2)
 		).collect(Collectors.toSet()));
 		TestUtils.callDeclaredMethod(d, "augmenterSalaireEquipe", 0.05d);
-		Assertions.assertThat((HashSet)TestUtils.invokeGetter(d, "equipe")).isNotNull();
-		Assertions.assertThat((HashSet)TestUtils.invokeGetter(d, "equipe")).hasSize(2);
+		Assertions.assertThat((HashSet) TestUtils.invokeGetter(d, "equipe")).isNotNull();
+		Assertions.assertThat((HashSet) TestUtils.invokeGetter(d, "equipe")).hasSize(2);
 		Iterator iterator = ((HashSet) TestUtils.invokeGetter(d, "equipe")).iterator();
 		Assertions.assertThat(TestUtils.invokeGetter(iterator.next(), "salaire")).isEqualTo(0.0);
 		Assertions.assertThat(TestUtils.invokeGetter(iterator.next(), "salaire")).isEqualTo(0.0);
 
 		d = TestUtils.getClasse("Manager").getConstructor().newInstance();
 		TestUtils.invokeSetter(d, "equipe", Stream.of(
-				TestUtils.getClasse("Technicien").getConstructor(String.class, String.class, String.class, LocalDate.class, Double.class, Integer.class).newInstance(null, null, null, null, 1000.0, 1) ,
+				TestUtils.getClasse("Technicien").getConstructor(String.class, String.class, String.class, LocalDate.class, Double.class, Integer.class).newInstance(null, null, null, null, 1000.0, 1),
 				TestUtils.getClasse("Technicien").getConstructor(String.class, String.class, String.class, LocalDate.class, Double.class, Integer.class).newInstance(null, null, null, null, 1000.0, 2)
 		).collect(Collectors.toSet()));
 		TestUtils.callDeclaredMethod(d, "augmenterSalaireEquipe", 0.50d);
-		Assertions.assertThat((HashSet)TestUtils.invokeGetter(d, "equipe")).isNotNull();
-		Assertions.assertThat((HashSet)TestUtils.invokeGetter(d, "equipe")).hasSize(2);
+		Assertions.assertThat((HashSet) TestUtils.invokeGetter(d, "equipe")).isNotNull();
+		Assertions.assertThat((HashSet) TestUtils.invokeGetter(d, "equipe")).hasSize(2);
 		iterator = ((HashSet) TestUtils.invokeGetter(d, "equipe")).iterator();
 		Assertions.assertThat(TestUtils.invokeGetter(iterator.next(), "salaire")).isEqualTo(1500.0);
 		Assertions.assertThat(TestUtils.invokeGetter(iterator.next(), "salaire")).isEqualTo(1500.0);
@@ -758,12 +746,12 @@ public class EntrepriseTest {
 		TestUtils.invokeSetter(d, "salaire", 1000.0);
 
 		TestUtils.invokeSetter(d, "equipe", Stream.of(
-				TestUtils.getClasse("Technicien").getConstructor(String.class, String.class, String.class, LocalDate.class, Double.class, Integer.class).newInstance(null, null, null, null, 0.0, 1) ,
+				TestUtils.getClasse("Technicien").getConstructor(String.class, String.class, String.class, LocalDate.class, Double.class, Integer.class).newInstance(null, null, null, null, 0.0, 1),
 				TestUtils.getClasse("Technicien").getConstructor(String.class, String.class, String.class, LocalDate.class, Double.class, Integer.class).newInstance(null, null, null, null, 0.0, 2)
 		).collect(Collectors.toSet()));
 		TestUtils.callMethod(d, "augmenterSalaire", 0.05d);
-		Assertions.assertThat((HashSet)TestUtils.invokeGetter(d, "equipe")).isNotNull();
-		Assertions.assertThat((HashSet)TestUtils.invokeGetter(d, "equipe")).hasSize(2);
+		Assertions.assertThat((HashSet) TestUtils.invokeGetter(d, "equipe")).isNotNull();
+		Assertions.assertThat((HashSet) TestUtils.invokeGetter(d, "equipe")).hasSize(2);
 		Iterator iterator = ((HashSet) TestUtils.invokeGetter(d, "equipe")).iterator();
 		Assertions.assertThat(TestUtils.invokeGetter(iterator.next(), "salaire")).isEqualTo(0.0);
 		Assertions.assertThat(TestUtils.invokeGetter(iterator.next(), "salaire")).isEqualTo(0.0);
@@ -774,8 +762,8 @@ public class EntrepriseTest {
 		TestUtils.invokeSetter(d, "salaire", 1000.0);
 		TestUtils.invokeSetter(d, "equipe", Stream.of(TestUtils.getClasse("Technicien").getConstructor(String.class, String.class, String.class, LocalDate.class, Double.class, Integer.class).newInstance(null, null, null, null, 1000.0, 1), TestUtils.getClasse("Technicien").getConstructor(String.class, String.class, String.class, LocalDate.class, Double.class, Integer.class).newInstance(null, null, null, null, 1000.0, 2)).collect(Collectors.toSet()));
 		TestUtils.callMethod(d, "augmenterSalaire", 0.50d);
-		Assertions.assertThat((HashSet)TestUtils.invokeGetter(d, "equipe")).isNotNull();
-		Assertions.assertThat((HashSet)TestUtils.invokeGetter(d, "equipe")).hasSize(2);
+		Assertions.assertThat((HashSet) TestUtils.invokeGetter(d, "equipe")).isNotNull();
+		Assertions.assertThat((HashSet) TestUtils.invokeGetter(d, "equipe")).hasSize(2);
 		iterator = ((HashSet) TestUtils.invokeGetter(d, "equipe")).iterator();
 		Assertions.assertThat(TestUtils.invokeGetter(iterator.next(), "salaire")).isEqualTo(1500.0);
 		Assertions.assertThat(TestUtils.invokeGetter(iterator.next(), "salaire")).isEqualTo(1500.0);
@@ -793,8 +781,8 @@ public class EntrepriseTest {
 		Object t = TestUtils.getClasse("Technicien").getConstructor(String.class, String.class, String.class, LocalDate.class, Double.class, Integer.class).newInstance("nom", "prenom", "matricule", dateTime, 500.0, 2);
 		TestUtils.callMethod(d, "ajoutTechnicienEquipe", "nom", "prenom", "matricule", dateTime, 500.0, 2);
 		Assertions.assertThat(TestUtils.invokeGetter(d, "equipe").getClass().getName()).isEqualTo(TestUtils.HASHSET);
-		Assertions.assertThat((HashSet)TestUtils.invokeGetter(d, "equipe")).isNotNull();
-		Assertions.assertThat((HashSet)TestUtils.invokeGetter(d, "equipe")).hasSize(1);
+		Assertions.assertThat((HashSet) TestUtils.invokeGetter(d, "equipe")).isNotNull();
+		Assertions.assertThat((HashSet) TestUtils.invokeGetter(d, "equipe")).hasSize(1);
 		Assertions.assertThat(((HashSet) TestUtils.invokeGetter(d, "equipe")).iterator().next()).isEqualToComparingFieldByField(t);
 	}
 
@@ -815,7 +803,7 @@ public class EntrepriseTest {
 
 		Object listeTech = TestUtils.callMethod(d, "equipeParGrade");
 		Assertions.assertThat(listeTech).isInstanceOf(List.class);
-		List liste = (List)listeTech;
+		List liste = (List) listeTech;
 		Assertions.assertThat(liste.size()).isEqualTo(3);
 
 		Assertions.assertThat(TestUtils.invokeGetter(liste.get(0), "grade")).isEqualTo(1);
@@ -825,7 +813,7 @@ public class EntrepriseTest {
 	}
 
 	@Test
-	public void exo510TestStreamLambdaReference() throws Exception{
+	public void exo510TestStreamLambdaReference() throws Exception {
 		//Ajouter une méthode salaireEquipeGrade1 qui renvoie la somme des salaires des membres de l'équipe dont le grade
 		//est égal à 1 en une ligne avec des lambdas
 
@@ -843,7 +831,16 @@ public class EntrepriseTest {
 	}
 
 	@AfterAll
-	public static void tearDown(){
+	public static void tearDown() {
 		DateTimeUtils.setCurrentMillisSystem();
 	}
+
+	public Derived(String nom, String prenom, String matricule, LocalDate dateEmbauche, Double salaire)throw
+			super(nom,prénom,matricule,dateembauche,salaire);
+	}
+
+	public Derived() {
+	}
+
+	public Double getPrimeannuelle(){ return 0d; }
 }
