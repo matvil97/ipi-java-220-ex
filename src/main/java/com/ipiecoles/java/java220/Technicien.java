@@ -55,7 +55,7 @@ public class Technicien extends Employe implements Comparable<Technicien> {
     public String toString() {
         return "Technicien{" +
                 "grade=" + grade +
-                "} " + super.toString();
+                "} " + Comparable.super.toString();
     }
 
     @Override
@@ -75,5 +75,9 @@ public class Technicien extends Employe implements Comparable<Technicien> {
     @Override
     public int compareTo(Technicien o) {
         return Integer.compare(this.grade, o.getGrade());
+    }
+
+    public static double getSalaire(Technicien technicien) {
+        return 0;
     }
 }

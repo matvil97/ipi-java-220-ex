@@ -55,7 +55,6 @@ public class Commercial extends employe {
 
     public Boolean performanceEgale(Integer performance){
         return this.performance.equals(performance);
-
     }
 
     public void setCaAnnuel(Double caAnnuel) {
